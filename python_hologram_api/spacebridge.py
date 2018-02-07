@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urlparse import urljoin  # python 2
 import requests
+from furl import furl
 
 
 class Spacebridge(object):
@@ -31,8 +32,8 @@ class Spacebridge(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'tunnelkeys')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'public_key': public_key
         }
         resp = requests.post(url, json=params)
@@ -51,8 +52,8 @@ class Spacebridge(object):
             raise TypeError("`with_disabled` must be a boolean.")
         with_disabled = 1 if with_disabled else 0
         url = urljoin(self.client.base_url, 'tunnelkeys')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'withdisabled': with_disabled
         }
         resp = requests.get(url, json=params)
@@ -68,10 +69,8 @@ class Spacebridge(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'tunnelkeys/{}/disable'.format(tunnel_key_id))
-        params = {
-            'apikey': self.client.api_key,
-        }
-        resp = requests.post(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.post(url)
         return resp.json()
 
     def enable_key(self, tunnel_key_id):
@@ -84,8 +83,6 @@ class Spacebridge(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'tunnelkeys/{}/enable'.format(tunnel_key_id))
-        params = {
-            'apikey': self.client.api_key,
-        }
-        resp = requests.post(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.post(url)
         return resp.json()

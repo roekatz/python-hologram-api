@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urlparse import urljoin  # python 2
 import requests
+from furl import furl
 
 
 class CSRMessaging(object):
@@ -26,8 +27,8 @@ class CSRMessaging(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'csr/rdm')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'deviceid': device_id,
             'data': data,
             'tags': tags
@@ -57,8 +58,8 @@ class CSRMessaging(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'csr/rdm')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'deviceid': device_id,
             'limit': limit,
             'orgid': org_id,
@@ -91,8 +92,8 @@ class SMSMessaging(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'sms/incoming')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'deviceid': device_id,
             'body': body,
             'fromnumber': from_number
@@ -129,8 +130,8 @@ class CloudToDeviceMessaging(object):
         if (data is None and base64_data is None) or (data is not None and base64_data is not None):
             raise ValueError('Please provide either `data` or `base64_data`')
         url = urljoin(self.client.base_url, 'devices/messages')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'deviceids': device_ids,
             'protocol': protocol,
             'port': port,

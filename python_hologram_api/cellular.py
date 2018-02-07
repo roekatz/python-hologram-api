@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urlparse import urljoin  # python 2
 import requests
+from furl import furl
 
 
 class CellularLinks(object):
@@ -31,8 +32,8 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular/bulkclaim')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'sims': sims,
             'plan': plan,
             'tier': tier
@@ -50,8 +51,8 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'orgid': org_id
         }
         resp = requests.get(url, json=params)
@@ -67,10 +68,9 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular/{}'.format(link_id))
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+
+        resp = requests.get(url)
         return resp.json()
 
     def change_plan(self, link_id, plan, tier):
@@ -86,8 +86,8 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular/{}/changeplan'.format(link_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'plan': plan,
             'tier': tier
         }
@@ -105,8 +105,8 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular/{}/overagelimit'.format(link_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'limit': limit
         }
         resp = requests.post(url, json=params)
@@ -122,8 +122,8 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular/{}/state'.format(link_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'state': 'pause'
         }
         resp = requests.post(url, json=params)
@@ -139,8 +139,8 @@ class CellularLinks(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'links/cellular/{}/state'.format(link_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'state': 'live'
         }
         resp = requests.post(url, json=params)

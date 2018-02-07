@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urlparse import urljoin  # python 2
 import requests
+from furl import furl
 
 
 class DataPlans(object):
@@ -27,10 +28,8 @@ class DataPlans(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'plans')
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()
 
     def get(self, plan_id):
@@ -43,8 +42,6 @@ class DataPlans(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'plans/{}'.format(plan_id))
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()

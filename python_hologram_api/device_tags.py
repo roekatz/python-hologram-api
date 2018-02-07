@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urlparse import urljoin  # python 2
 import requests
+from furl import furl
 
 
 class DeviceTags(object):
@@ -25,10 +26,8 @@ class DeviceTags(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'devices/tags')
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()
 
     def create(self, name):
@@ -41,8 +40,8 @@ class DeviceTags(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'devices/tags')
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'name': name
         }
         resp = requests.post(url, json=params)
@@ -58,10 +57,8 @@ class DeviceTags(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'devices/tags/{}'.format(tag_id))
-        params = {
-            'apikey': self.client.api_key,
-        }
-        resp = requests.delete(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.delete(url)
         return resp.json()
 
     def link_devices(self, tag_id, device_ids):
@@ -75,8 +72,8 @@ class DeviceTags(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'devices/tags/{}/link'.format(tag_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'deviceids': device_ids
         }
         resp = requests.post(url, json=params)
@@ -93,8 +90,8 @@ class DeviceTags(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'devices/tags/{}/unlink'.format(tag_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'deviceids': device_ids
         }
         resp = requests.post(url, json=params)

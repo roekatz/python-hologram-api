@@ -5,6 +5,7 @@ try:
 except ImportError:
     from urlparse import urljoin  # python 2
 import requests
+from furl import furl
 
 
 class Organization(object):
@@ -28,10 +29,8 @@ class Organization(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'organizations')
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()
 
     def get(self, org_id):
@@ -44,10 +43,8 @@ class Organization(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'organizations/{}'.format(org_id))
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()
 
     def get_balance(self, org_id):
@@ -60,10 +57,8 @@ class Organization(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'organizations/{}/balance'.format(org_id))
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()
 
     def add_balance(self, org_id, amount):
@@ -80,8 +75,8 @@ class Organization(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'organizations/{}/balance'.format(org_id))
+        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'apikey': self.client.api_key,
             'addamount': amount
         }
         resp = requests.post(url, json=params)
@@ -99,8 +94,6 @@ class Organization(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'organizations/{}/balancehistory'.format(org_id))
-        params = {
-            'apikey': self.client.api_key
-        }
-        resp = requests.get(url, json=params)
+        url = furl(url).add({'apikey': self.client.api_key}).url
+        resp = requests.get(url)
         return resp.json()
