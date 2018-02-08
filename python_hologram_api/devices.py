@@ -26,10 +26,11 @@ class Devices(object):
             dict: the json response as a dictionary.
         """
         url = urljoin(self.client.base_url, 'devices')
-        url = furl(url).add({'apikey': self.client.api_key}).url
         params = {
-            'orgid': org_id,
+            'apikey': self.client.api_key,
+            'orgid': org_id
         }
+        url = furl(url).add(params).url
 
         resp = requests.get(url, json=params)
         return resp.json()
