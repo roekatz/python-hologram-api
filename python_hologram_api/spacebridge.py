@@ -1,5 +1,6 @@
 """Spacebridge module."""
 
+from __future__ import absolute_import
 try:
     from urllib.parse import urljoin  # python 3
 except ImportError:

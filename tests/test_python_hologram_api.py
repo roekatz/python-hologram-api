@@ -3,6 +3,7 @@
 
 """Tests for `python_hologram_api` package."""
 
+from __future__ import absolute_import
 import unittest
 
 from python_hologram_api.client import HologramClient
