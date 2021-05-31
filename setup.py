@@ -5,6 +5,7 @@
 
 from __future__ import absolute_import
 from setuptools import setup, find_packages
+from io import open
 
 with open('README.rst') as readme_file:
     readme = readme_file.read()
