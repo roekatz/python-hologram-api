@@ -48,7 +48,7 @@ class Spacebridge(object):
         Returns:
             dict: the json response as a dictionary.
         """
-        if type(with_disabled) is not bool:
+        if not isinstance(with_disabled, bool):
             raise TypeError("`with_disabled` must be a boolean.")
         with_disabled = 1 if with_disabled else 0
         url = urljoin(self.client.base_url, 'tunnelkeys')
