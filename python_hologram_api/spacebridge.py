@@ -4,7 +4,7 @@ from __future__ import absolute_import
 try:
     from urllib.parse import urljoin  # python 3
 except ImportError:
-    from urlparse import urljoin  # python 2
+    from six.moves.urllib.parse import urljoin  # python 2
 import requests
 from furl import furl
 
